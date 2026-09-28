@@ -1,0 +1,37 @@
+*{
+    margin: 20px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+body{
+    display: grid;
+    grid-template-areas:
+    "header header";
+}
+header{
+    text-align: center;
+}
+th{
+    background-color: aliceblue;
+    color: red;
+}
+#QT{
+    background-color: blue;
+
+}
+#BD{
+    background-color: navy;
+    
+}
+#FD{
+    background-attachment: pink;
+}
+#IOT{
+    background-color: palegreen;
+}
+#BL{
+    background-color: chartreuse;
+}
+#FL{
+    background-color: beige;
+}

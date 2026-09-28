@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Academic Report</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: #f2f5f9;
+            color: #222;
+        }
+
+        header {
+            background: #1d4ed8;
+            color: white;
+            text-align: center;
+            padding: 25px 15px;
+        }
+
+        header h1 {
+            margin: 0 0 8px;
+        }
+
+        header p {
+            margin: 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1100px;
+            margin: 25px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+        }
+
+        h2 {
+            color: #1d4ed8;
+            margin-top: 0;
+            border-bottom: 2px solid #e5e7eb;
+            padding-bottom: 10px;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            font-weight: bold;
+            margin-bottom: 6px;
+        }
+
+        input,
+        select {
+            padding: 11px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 15px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background: #1d4ed8;
+            color: white;
+        }
+
+        td input {
+            width: 100%;
+        }
+
+        .button-area {
+            text-align: center;
+            margin: 20px 0;
+        }
+
+        button {
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            margin: 5px;
+        }
+
+        .generate-btn {
+            background: #16a34a;
+            color: white;
+        }
+
+        .clear-btn {
+            background: #dc2626;
+            color: white;
+        }
+
+        .print-btn {
+            background: #7c3aed;
+            color: white;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        #report {
+            display: none;
+        }
+
+        .report-header {
+            text-align: center;
+            border-bottom: 2px solid #222;
+            padding-bottom: 15px;
+        }
+
+        .student-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .summary {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .summary-box {
+            border: 1px solid #ddd;
+            padding: 15px;
+            text-align: center;
+            border-radius: 6px;
+        }
+
+        .summary-box h3 {
+            margin: 0 0 8px;
+        }
+
+        .grade {
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .signature {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 70px;
+        }
+
+        @media (max-width: 700px) {
+            .form-grid,
+            .student-info,
+            .summary {
+                grid-template-columns: 1fr;
+            }
+
+            .container {
+                width: 95%;
+            }
+
+            table {
+                font-size: 13px;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+            }
+
+            header,
+            #inputSection,
+            .button-area {
+                display: none;
+            }
+
+            .card {
+                box-shadow: none;
+                border: none;
+            }
+
+            #report {
+                display: block !important;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <h1>Student Academic Report Management</h1>
+    <p>Student Marks and Academic Performance System</p>
+</header>
+
+<div class="container">
+
+    <!-- INPUT SECTION -->
+    <div class="card" id="inputSection">
+
+        <h2>Student Details</h2>
+
+        <div class="form-grid">
+
+            <div class="form-group">
+                <label>Student Name</label>
+                <input type="text" id="studentName"
+                       placeholder="Enter student name">
+            </div>
+
+            <div class="form-group">
+                <label>USN / Roll Number</label>
+                <input type="text" id="usn"
+                       placeholder="Enter USN">
+            </div>
+
+            <div class="form-group">
+                <label>Course</label>
+                <select id="course">
+                    <option value="">Select Course</option>
+                    <option>BCA</option>
+                    <option>BBA</option>
+                    <option>BCOM</option>
+                    <option>BA</option>
+                    <option>BSc</option>
+                    <option>MCA</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label>Semester</label>
+                <select id="semester">
+                    <option value="">Select Semester</option>
+                    <option>1st Semester</option>
+                    <option>2nd Semester</option>
+                    <option>3rd Semester</option>
+                    <option>4th Semester</option>
+                    <option>5th Semester</option>
+                    <option>6th Semester</option>
+                </select>
+            </div>
+
+        </div>
+
+        <h2 style="margin-top:30px;">Subject Marks</h2>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Sl.No</th>
+                    <th>Subject / Course</th>
+                    <th>Maximum Marks</th>
+                    <th>Marks Obtained</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>1</td>
+                    <td>
+                        <input type="text" class="subject"
+                               placeholder="Subject 1">
+                    </td>
+                    <td>
+                        <input type="number" class="maxMarks"
+                               value="100">
+                    </td>
+                    <td>
+                        <input type="number" class="obtained"
+                               min="0" value="0">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>2</td>
+                    <td>
+                        <input type="text" class="subject"
+                               placeholder="Subject 2">
+                    </td>
+                    <td>
+                        <input type="number" class="maxMarks"
+                               value="100">
+                    </td>
+                    <td>
+                        <input type="number" class="obtained"
+                               min="0" value="0">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>3</td>
+                    <td>
+                        <input type="text" class="subject"
+                               placeholder="Subject 3">
+                    </td>
+                    <td>
+                        <input type="number" class="maxMarks"
+                               value="100">
+                    </td>
+                    <td>
+                        <input type="number" class="obtained"
+                               min="0" value="0">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>4</td>
+                    <td>
+                        <input type="text" class="subject"
+                               placeholder="Subject 4">
+                    </td>
+                    <td>
+                        <input type="number" class="maxMarks"
+                               value="100">
+                    </td>
+                    <td>
+                        <input type="number" class="obtained"
+                               min="0" value="0">
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>5</td>
+                    <td>
+                        <input type="text" class="subject"
+                               placeholder="Subject 5">
+                    </td>
+                    <td>
+                        <input type="number" class="maxMarks"
+                               value="100">
+                    </td>
+                    <td>
+                        <input type="number" class="obtained"
+                               min="0" value="0">
+                    </td>
+                </tr>
+
+            </tbody>
+        </table>
+
+        <div class="button-area">
+            <button class="generate-btn"
+                    onclick="generateReport()">
+                Generate Academic Report
+            </button>
+
+            <button class="clear-btn"
+                    onclick="clearForm()">
+                Clear
+            </button>
+        </div>
+
+    </div>
+
+
+    <!-- REPORT SECTION -->
+
+    <div class="card" id="report">
+
+        <div class="report-header">
+
+            <h1>STUDENT ACADEMIC REPORT</h1>
+
+            <p>
+                Academic Performance Report
+            </p>
+
+        </div>
+
+        <div class="student-info">
+
+            <div>
+                <strong>Student Name:</strong>
+                <span id="rStudentName"></span>
+            </div>
+
+            <div>
+                <strong>USN / Roll No:</strong>
+                <span id="rUsn"></span>
+            </div>
+
+            <div>
+                <strong>Course:</strong>
+                <span id="rCourse"></span>
+            </div>
+
+            <div>
+                <strong>Semester:</strong>
+                <span id="rSemester"></span>
+            </div>
+
+            <div>
+                <strong>Parent / Guardian:</strong>
+                <span id="rParent"></span>
+            </div>
+
+            <div>
+                <strong>Academic Year:</strong>
+                <span id="rYear"></span>
+            </div>
+
+        </div>
+
+
+        <h2>Marks Details</h2>
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>Sl.No</th>
+                    <th>Subject / Course</th>
+                    <th>Maximum Marks</th>
+                    <th>Marks Obtained</th>
+                </tr>
+            </thead>
+
+            <tbody id="reportTable">
+            </tbody>
+
+        </table>
+
+
+        <div class="summary">
+
+            <div class="summary-box">
+                <h3>Total Marks</h3>
+                <div id="totalMarks"></div>
+            </div>
+
+            <div class="summary-box">
+                <h3>Percentage</h3>
+                <div id="percentage"></div>
+            </div>
+
+            <div class="summary-box">
+                <h3>Grade</h3>
+                <div class="grade" id="grade"></div>
+            </div>
+
+        </div>
+
+        <div class="summary">
+
+            <div class="summary-box">
+                <h3>Result</h3>
+                <div id="result"></div>
+            </div>
+
+        </div>
+
+
+        <div class="signature">
+
+            <div>
+                Parent Signature
+            </div>
+
+            <div>
+                Class Teacher Signature
+            </div>
+
+            <div>
+                Principal Signature
+            </div>
+
+        </div>
+
+
+        <div class="button-area">
+
+            <button class="print-btn"
+                    onclick="window.print()">
+                Print Report
+            </button>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+function generateReport() {
+
+    // Get student details
+
+    const name =
+        document.getElementById("studentName").value;
+
+    const usn =
+        document.getElementById("usn").value;
+
+    const course =
+        document.getElementById("course").value;
+
+    const semester =
+        document.getElementById("semester").value;
+
+    const parent =
+        document.getElementById("parentName").value;
+
+    const year =
+        document.getElementById("academicYear").value;
+
+
+    // Check student details
+
+    if (name === "" ||
+        usn === "" ||
+        course === "" ||
+        semester === "") {
+
+        alert("Please enter all student details.");
+
+        return;
+    }
+
+
+    // Display student details
+
+    document.getElementById("rStudentName")
+        .textContent = name;
+
+    document.getElementById("rUsn")
+        .textContent = usn;
+
+    document.getElementById("rCourse")
+        .textContent = course;
+
+    document.getElementById("rSemester")
+        .textContent = semester;
+
+    document.getElementById("rParent")
+        .textContent = parent;
+
+    document.getElementById("rYear")
+        .textContent = year;
+
+
+    // Get subject data
+
+    const subjects =
+        document.querySelectorAll(".subject");
+
+    const maxMarks =
+        document.querySelectorAll(".maxMarks");
+
+    const obtained =
+        document.querySelectorAll(".obtained");
+
+
+    let totalMax = 0;
+
+    let totalObtained = 0;
+
+    let reportHTML = "";
+
+    let failed = false;
+
+
+    // Process each subject
+
+    for (let i = 0; i < subjects.length; i++) {
+
+        const subjectName =
+            subjects[i].value;
+
+        const max =
+            Number(maxMarks[i].value);
+
+        const mark =
+            Number(obtained[i].value);
+
+
+        if (subjectName === "") {
+
+            continue;
+
+        }
+
+
+        if (mark > max) {
+
+            alert(
+                subjectName +
+                ": Marks cannot be greater than maximum marks."
+            );
+
+            return;
+        }
+
+
+        // Assuming 35% is pass mark
+
+        if (mark < max * 0.35) {
+
+            failed = true;
+
+        }
+
+
+        totalMax += max;
+
+        totalObtained += mark;
+
+
+        reportHTML += `
+
+            <tr>
+
+                <td>${i + 1}</td>
+
+                <td>${subjectName}</td>
+
+                <td>${max}</td>
+
+                <td>${mark}</td>
+
+            </tr>
+
+        `;
+
+    }
+
+
+    if (totalMax === 0) {
+
+        alert("Please enter subject marks.");
+
+        return;
+
+    }
+
+
+    // Calculate percentage
+
+    const percentage =
+        (totalObtained / totalMax) * 100;
+
+
+    // Calculate grade
+
+    let grade;
+
+
+    if (percentage >= 90) {
+
+        grade = "A+";
+
+    } else if (percentage >= 80) {
+
+        grade = "A";
+
+    } else if (percentage >= 70) {
+
+        grade = "B+";
+
+    } else if (percentage >= 60) {
+
+        grade = "B";
+
+    } else if (percentage >= 50) {
+
+        grade = "C";
+
+    } else if (percentage >= 35) {
+
+        grade = "D";
+
+    } else {
+
+        grade = "F";
+
+    }
+
+
+    // Result
+
+    const result =
+        failed ? "FAIL" : "PASS";
+
+
+    // Display report
+
+    document.getElementById("reportTable")
+        .innerHTML = reportHTML;
+
+
+    document.getElementById("totalMarks")
+        .textContent =
+        totalObtained + " / " + totalMax;
+
+
+    document.getElementById("percentage")
+        .textContent =
+        percentage.toFixed(2) + "%";
+
+
+    document.getElementById("grade")
+        .textContent = grade;
+
+
+    document.getElementById("result")
+        .textContent = result;
+
+
+    // Show report
+
+    document.getElementById("report")
+        .style.display = "block";
+
+
+    // Scroll to report
+
+    document.getElementById("report")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+}
+
+
+function clearForm() {
+
+    document.querySelectorAll("input")
+        .forEach(input => {
+
+            if (input.classList.contains("maxMarks")) {
+
+                input.value = 100;
+
+            } else if (
+                input.classList.contains("obtained")
+            ) {
+
+                input.value = 0;
+
+            } else {
+
+                input.value = "";
+
+            }
+
+        });
+
+
+    document.querySelector("select").value = "";
+
+    document.getElementById("report")
+        .style.display = "none";
+
+}
+
+</script>
+
+</body>
+</html>
