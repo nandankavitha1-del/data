@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Cartoon Player</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #111827;
+            color: white;
+            margin: 0;
+            padding: 30px;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+        }
+
+        .back {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #2563eb;
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            margin-bottom: 25px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        #thumbnail {
+            width: 300px;
+            max-width: 100%;
+            border-radius: 10px;
+        }
+
+        iframe {
+            width: 100%;
+            height: 500px;
+            border: none;
+            border-radius: 12px;
+            margin-top: 20px;
+        }
+
+        #message {
+            font-size: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <a href="index.html" class="back">
+        ← Back to Cartoons
+    </a>
+
+    <h1 id="title">Loading...</h1>
+
+    <p id="message">⏳ Loading cartoon...</p>
+
+    <img id="thumbnail" style="display:none;">
+
+    <div id="player"></div>
+
+</div>
+
+
+<script>
+
+const API_URL =
+"https://raw.githubusercontent.com/samyak2403/daily-movies-api/main/movies/cartoons/cartoons.json";
+
+
+async function loadCartoon() {
+
+    try {
+
+        // URL ಇಂದ ID ತೆಗೆದುಕೊಳ್ಳುತ್ತದೆ
+        const params = new URLSearchParams(
+            window.location.search
+        );
+
+        const id = params.get("id");
+
+        if (!id) {
+            throw new Error("Cartoon ID not found");
+        }
+
+
+        // API fetch
+        const response = await fetch(API_URL);
+
+        if (!response.ok) {
+            throw new Error("Failed to load cartoon data");
+        }
+
+
+        const data = await response.json();
+
+
+        // Selected cartoon ಹುಡುಕು
+        const cartoon = data.movies.find(
+            movie => String(movie.id) === String(id)
+        );
+
+
+        if (!cartoon) {
+            throw new Error("Cartoon not found");
+        }
+
+
+        // Title
+        document.querySelector("#title").textContent =
+            cartoon.title;
+
+
+        // Thumbnail
+        const thumbnail =
+            document.querySelector("#thumbnail");
+
+        thumbnail.src = cartoon.thumbnail;
+        thumbnail.alt = cartoon.title;
+        thumbnail.style.display = "block";
+
+
+        // Loading message hide
+        document.querySelector("#message").style.display =
+            "none";
+
+
+        // Video URL
+        if (cartoon.url) {
+
+            document.querySelector("#player").innerHTML = `
+                <iframe
+                    src="${cartoon.url}"
+                    allowfullscreen>
+                </iframe>
+            `;
+
+        } else {
+
+            document.querySelector("#player").innerHTML = `
+                <p>Video not available.</p>
+            `;
+
+        }
+
+    }
+
+    catch (error) {
+
+        document.querySelector("#title").textContent =
+            "Error";
+
+        document.querySelector("#message").textContent =
+            "❌ " + error.message;
+
+    }
+
+}
+
+
+loadCartoon();
+
+</script>
+
+</body>
+</html>
