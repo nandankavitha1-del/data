@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Cartoon</title>
+<style>
+body{text-align:center;font-family:Arial}
+iframe{width:700px;height:400px;max-width:90%}
+</style>
+</head>
+
+<body>
+
+<h1 id="title">Loading...</h1>
+<iframe id="video" allowfullscreen></iframe>
+
+<script>
+
+let i=new URLSearchParams(location.search).get("i");
+
+fetch("https://raw.githubusercontent.com/samyak2403/daily-movies-api/main/movies/cartoons/cartoons.json")
+.then(r=>r.json())
+.then(data=>{
+
+let c=data.movies[i];
+
+document.getElementById("title").innerText=c.title;
+
+document.getElementById("video").src=
+"https://www.youtube.com/embed/"+c.id;
+
+});
+
+</script>
+
+</body>
+</html>

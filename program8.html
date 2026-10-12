@@ -1,75 +1,52 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>Cartoon Gallery</title>
+<title>Cartoons</title>
+<style>
+body{text-align:center;font-family:Arial}
+#cartoons{display:flex;flex-wrap:wrap;gap:20px;justify-content:center}
+.card{width:200px;padding:10px;box-shadow:0 2px 8px #aaa;cursor:pointer}
+.card img{width:100%;height:120px;object-fit:cover}
+</style>
 </head>
 
 <body>
 
-    <h1>Cartoon Gallery</h1>
+<h1>Cartoon Gallery</h1>
+<button onclick="load()">Load Cartoons</button>
+<p id="msg"></p>
+<div id="cartoons"></div>
 
-    <button onclick="loadCartoons()">Load Cartoons</button>
+<script>
+function load(){
 
-    <p id="message">
-        Click the button to load the cartoons...
-    </p>
+fetch("https://raw.githubusercontent.com/samyak2403/daily-movies-api/main/movies/cartoons/cartoons.json")
+.then(r=>r.json())
+.then(data=>{
 
-    <div id="cartoons"></div>
+data.movies.forEach((c,i)=>{
 
-    <script>
+let card=document.createElement("div");
+card.className="card";
 
-        function loadCartoons() {
+card.innerHTML=`
+<img src="${c.thumbnail}">
+<h3>${c.title}</h3>
+`;
 
-            let message = document.querySelector("#message");
-            let cartoons = document.querySelector("#cartoons");
+card.onclick=()=>location.href="cartoon.html?i="+i;
 
-            message.textContent = "Loading cartoons...";
-            cartoons.innerHTML = "";
+document.getElementById("cartoons").appendChild(card);
 
-            // Replace this with your GitHub RAW JSON URL
-            fetch("https://raw.githubusercontent.com/USERNAME/REPOSITORY/main/cartoons.json")
+});
 
-                .then(response => {
+document.getElementById("msg").innerText=data.movies.length+" cartoons loaded";
 
-                    if (!response.ok) {
-                        throw new Error("Failed to load cartoon data");
-                    }
+})
+.catch(e=>document.getElementById("msg").innerText="Error");
 
-                    return response.json();
-                })
-
-                .then(data => {
-
-                    data.movies.forEach(cartoon => {
-
-                        let div = document.createElement("div");
-
-                        div.innerHTML = `
-                            <h2>${cartoon.title}</h2>
-                            <img src="${cartoon.image}" width="200">
-                            <p>${cartoon.description}</p>
-                        `;
-
-                        cartoons.appendChild(div);
-                    });
-
-                    message.textContent = "Cartoons loaded!";
-
-                })
-
-                .catch(error => {
-
-                    message.textContent =
-                        "Error loading cartoons.";
-
-                    console.error(error);
-
-                });
-        }
-
-    </script>
+}
+</script>
 
 </body>
-
 </html>

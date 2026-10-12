@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Human Drawing</title>
+
+  <style>
+    body {
+      margin: 0;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: #eef3f8;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      text-align: center;
+    }
+
+    h1 {
+      color: #222;
+      margin-bottom: 20px;
+    }
+
+    svg {
+      width: 350px;
+      height: 550px;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    /* Human body */
+    .skin {
+      fill: #f1b27a;
+      stroke: #333;
+      stroke-width: 3;
+    }
+
+    .shirt {
+      fill: #3498db;
+      stroke: #333;
+      stroke-width: 3;
+    }
+
+    .pants {
+      fill: #2c3e50;
+      stroke: #333;
+      stroke-width: 3;
+    }
+
+    .shoe {
+      fill: #222;
+      stroke: #111;
+      stroke-width: 3;
+    }
+
+    .hair {
+      fill: #3b2416;
+      stroke: #222;
+      stroke-width: 3;
+    }
+
+    .eye {
+      fill: white;
+      stroke: #222;
+      stroke-width: 2;
+    }
+
+    .pupil {
+      fill: #111;
+    }
+
+    .mouth {
+      fill: none;
+      stroke: #8e3b3b;
+      stroke-width: 3;
+      stroke-linecap: round;
+    }
+
+    button {
+      margin-top: 20px;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 8px;
+      background: #3498db;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #217dbb;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>Human Drawing</h1>
+
+    <svg id="human" viewBox="0 0 350 550">
+
+      <!-- Hair -->
+      <path
+        class="hair"
+        d="M115 105
+           Q115 45 175 45
+           Q235 45 235 105
+           L220 135
+           L130 135 Z"
+      />
+
+      <!-- Head -->
+      <ellipse
+        class="skin"
+        cx="175"
+        cy="125"
+        rx="55"
+        ry="65"
+      />
+
+      <!-- Ears -->
+      <ellipse class="skin" cx="119" cy="130" rx="12" ry="20"/>
+      <ellipse class="skin" cx="231" cy="130" rx="12" ry="20"/>
+
+      <!-- Eyes -->
+      <ellipse class="eye" cx="153" cy="120" rx="9" ry="6"/>
+      <ellipse class="eye" cx="197" cy="120" rx="9" ry="6"/>
+
+      <circle class="pupil" cx="153" cy="120" r="3"/>
+      <circle class="pupil" cx="197" cy="120" r="3"/>
+
+      <!-- Nose -->
+      <path
+        d="M175 125 L168 148 Q175 153 182 148"
+        fill="none"
+        stroke="#8e5a3c"
+        stroke-width="3"
+      />
+
+      <!-- Mouth -->
+      <path
+        class="mouth"
+        d="M158 165 Q175 178 192 165"
+      />
+
+      <!-- Neck -->
+      <rect
+        class="skin"
+        x="155"
+        y="180"
+        width="40"
+        height="35"
+        rx="8"
+      />
+
+      <!-- Shirt / Torso -->
+      <path
+        class="shirt"
+        d="M140 205
+           L100 225
+           L120 335
+           L155 335
+           L155 250
+           L195 250
+           L195 335
+           L230 335
+           L250 225
+           L210 205
+           L195 215
+           L155 215 Z"
+      />
+
+      <!-- Left Arm -->
+      <path
+        class="skin"
+        d="M105 225
+           Q90 230 85 250
+           L65 335
+           Q62 350 75 355
+           Q88 358 93 342
+           L120 255 Z"
+      />
+
+      <!-- Right Arm -->
+      <path
+        class="skin"
+        d="M245 225
+           Q260 230 265 250
+           L285 335
+           Q288 350 275 355
+           Q262 358 257 342
+           L230 255 Z"
+      />
+
+      <!-- Left Hand -->
+      <ellipse
+        class="skin"
+        cx="76"
+        cy="350"
+        rx="14"
+        ry="20"
+      />
+
+      <!-- Right Hand -->
+      <ellipse
+        class="skin"
+        cx="274"
+        cy="350"
+        rx="14"
+        ry="20"
+      />
+
+      <!-- Pants -->
+      <path
+        class="pants"
+        d="M120 335
+           L175 335
+           L175 455
+           L135 455
+           Z"
+      />
+
+      <path
+        class="pants"
+        d="M175 335
+           L230 335
+           L215 455
+           L175 455
+           Z"
+      />
+
+      <!-- Left Leg -->
+      <rect
+        class="skin"
+        x="140"
+        y="450"
+        width="35"
+        height="60"
+        rx="8"
+      />
+
+      <!-- Right Leg -->
+      <rect
+        class="skin"
+        x="175"
+        y="450"
+        width="35"
+        height="60"
+        rx="8"
+      />
+
+      <!-- Shoes -->
+      <ellipse
+        class="shoe"
+        cx="148"
+        cy="515"
+        rx="38"
+        ry="14"
+      />
+
+      <ellipse
+        class="shoe"
+        cx="202"
+        cy="515"
+        rx="38"
+        ry="14"
+      />
+
+    </svg>
+
+    <br>
+
+    <button onclick="changeShirtColor()">
+      Change Shirt Color
+    </button>
+
+  </div>
+
+  <script>
+    const colors = [
+      "#3498db",
+      "#e74c3c",
+      "#2ecc71",
+      "#9b59b6",
+      "#f39c12",
+      "#1abc9c"
+    ];
+
+    let colorIndex = 0;
+
+    function changeShirtColor() {
+      const shirts = document.querySelectorAll(".shirt");
+
+      colorIndex++;
+
+      if (colorIndex >= colors.length) {
+        colorIndex = 0;
+      }
+
+      shirts.forEach(shirt => {
+        shirt.style.fill = colors[colorIndex];
+      });
+    }
+  </script>
+
+</body>
+</html>
